@@ -45,6 +45,9 @@ class MyDrawer extends StatelessWidget {
         ),
       ),
       onTap: () {
+        if(route == '/'){
+          Navigator.popUntil(context, ModalRoute.withName(route));
+        }
         Navigator.pushNamed(context, route);
       }
     );
