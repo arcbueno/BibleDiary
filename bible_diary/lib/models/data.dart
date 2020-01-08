@@ -8,21 +8,28 @@ class Data{
   String resume;
   String whatLearned;
   String comment;
-  String tag; // To be used 
+  String tag; // For use later
 
-  String toJson(){
-    return convert.json.encode(toMap());
-  }
+  Data({
+    this.id, 
+    this.date, 
+    this.textRead, 
+    this.keyVerse, 
+    this.resume, 
+    this.whatLearned, 
+    this.comment, 
+    this.tag
+  });
+
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date'] = this.date;
-    data['textRead'] = this.textRead;
-    data['keyVerse'] = this.keyVerse;
-    data['resume'] = this.resume;
-    data['whatLearned'] = this.whatLearned;
-    data['comment'] = this.comment;
-    data['tag'] = this.tag;
-    return data;
+    return {
+      'id': id,
+      'date': date,
+      'textRead': textRead,
+      'resume':resume,
+      'whatLearned': whatLearned,
+      'comment': comment,
+      'tag': tag
+    };
   }
-}
+} 

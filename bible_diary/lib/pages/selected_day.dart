@@ -1,4 +1,5 @@
 import 'package:bible_diary/custom_widgets/drawer.dart';
+import 'package:bible_diary/database/data_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:bible_diary/models/data.dart';
 import 'package:bible_diary/utils/utils.dart';
@@ -41,7 +42,7 @@ class SelectedDay extends StatelessWidget {
 class MyForm extends StatelessWidget {
 
   final _formkey = GlobalKey<FormState>();
-
+  final dao = DataDAO();
   @override
   Widget build(BuildContext context) {
 
@@ -51,6 +52,17 @@ class MyForm extends StatelessWidget {
     final _resumeController = TextEditingController(); 
     final _whatLearnedController = TextEditingController(); 
     final _commentController = TextEditingController();
+
+        _onSaveAsync() async {
+      var formDone = Data();
+      formDone.textRead = _textReadController.text;
+      formDone.whatLearned = _whatLearnedController.text;
+      formDone.resume = _resumeController.text;
+      formDone.keyVerse = _keyVerseController.text;
+      formDone.comment = _commentController.text;
+      var integer = await dao.saveAsync(formDone);
+      _formkey.currentState.save();
+    }
 
     return Form(
       key: _formkey,
@@ -152,7 +164,11 @@ class MyForm extends StatelessWidget {
                   ),
                 ),
                 color: Colors.blue,
-                onPressed: () => print('opa'),
+                onPressed: (){
+                  _onSaveAsync();
+                  print('saved');
+                  Navigator.pop(context);
+                }
               )
             ],
           )
@@ -160,16 +176,6 @@ class MyForm extends StatelessWidget {
       ),
     );
 
-    _onSave(){
-      var formDone = Data();
-      formDone.textRead = _textReadController.text;
-      formDone.whatLearned = _whatLearnedController.text;
-      formDone.resume = _resumeController.text;
-      formDone.keyVerse = _keyVerseController.text;
-      formDone.comment = _commentController.text;
-      
-      _formkey.currentState.save();
-    }
 
 
   }

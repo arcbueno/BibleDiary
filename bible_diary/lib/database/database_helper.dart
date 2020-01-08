@@ -21,10 +21,10 @@ class DatabaseHelper {
 
   Future _initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'carros.db');
-    print("db $path");
+      String path = join(databasesPath, 'data.db');
+      print("db $path");
 
-    var db = await openDatabase(path, version: 2, onCreate: _onCreate,);
+      var db = await openDatabase(path, version: 1, onCreate: _onCreate,);
     return db;
   }
 
