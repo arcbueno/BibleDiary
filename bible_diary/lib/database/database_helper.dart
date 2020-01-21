@@ -21,17 +21,20 @@ class DatabaseHelper {
 
   Future _initDb() async {
     String databasesPath = await getDatabasesPath();
-      String path = join(databasesPath, 'data.db');
-      print("db $path");
-
-      var db = await openDatabase(path, version: 1, onCreate: _onCreate,);
+    String path = join(databasesPath, 'data.db');
+    print("db $path");
+    var db = await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+    );
     return db;
   }
 
   void _onCreate(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE data(id INTEGER PRIMARY KEY, date DATETIME, textRead TEXT'
-        ', keyVerse TEXT, resume TEXT, whatLearned TEXT, comment TEXT, tag TEXT)');
+        'CREATE TABLE data(id INTEGER PRIMARY KEY, date TEXT, textRead TEXT' +
+            ', keyVerse TEXT, resume TEXT, whatLearned TEXT, comment TEXT, tag TEXT)');
   }
 
   Future close() async {

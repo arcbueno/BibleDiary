@@ -4,9 +4,13 @@ import 'package:bible_diary/pages/settings.dart';
 import 'package:flutter/material.dart';
 import './pages/home_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_stetho/flutter_stetho.dart';
 
 void main() {
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  initializeDateFormatting().then((_) {
+    Stetho.initialize();
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

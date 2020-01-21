@@ -5,10 +5,41 @@ import 'package:bible_diary/pages/selected_day.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
+  var _calendarController;
+
+  @override
+  void initState() {
+    _calendarController = CalendarController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return HomePage(
+      calendarController: _calendarController,
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
   var dao = DataDAO();
   var tappedDate = DateTime.now();
+  var alreadyTapped = false;
+  var calendarController;
+
+  HomePage({@required this.calendarController});
 
   @override
   Widget build(BuildContext context) {
@@ -23,89 +54,88 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  _body(context){
+  _body(context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          TableCalendar(
-            calendarController: CalendarController(),
-            startingDayOfWeek: StartingDayOfWeek.sunday,
-            calendarStyle: CalendarStyle(
+        child: Column(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        TableCalendar(
+          locale: "pt_br",
+          calendarController: calendarController,
+          startingDayOfWeek: StartingDayOfWeek.sunday,
+          calendarStyle: CalendarStyle(
               selectedColor: Colors.blue,
               todayColor: Colors.blueGrey,
-              markersColor: Colors.cyan
-            ),
-            headerStyle: HeaderStyle(
-              centerHeaderTitle: true,
-              formatButtonVisible: true
-            ),
-            onDayLongPressed: (date, events) =>_onDayLongPressed(context,date),
-            onDaySelected: (date, events) => tappedDate = date,
-          ),
-          SizedBox(height: 8.0,),
-          _buildEventList()
-        ],
-      )
+              markersColor: Colors.cyan),
+          headerStyle:
+              HeaderStyle(centerHeaderTitle: true, formatButtonVisible: true),
+          onDaySelected: (date, events) => _onTap(date, context),
+        ),
+        _buildEventList()
+      ],
+    ));
+  }
+
+  _onTap(date, context) {
+    if (date == tappedDate) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SelectedDay(
+                    currentDate: date,
+                  )));
+    } else {
+      tappedDate = date;
+      _buildEventList();
+    }
+  }
+
+  _drawer(context) {
+    return MyDrawer(
+      contexto: context,
     );
   }
 
-  _drawer(context){
-    return MyDrawer(contexto: context,);
-  }
-
-  _onDayLongPressed(context,date){
-
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) => SelectedDay(currentDate: date,)
-    ));
-
-  }
-
   Widget _buildEventList() {
-      return FutureBuilder(
+    return FutureBuilder(
         future: dao.getByDateAsync(tappedDate),
         initialData: "No date selected",
-        builder: (context, projectSnap){
-          print('oi');
-          if(projectSnap.connectionState == ConnectionState.none && projectSnap.hasData == null){
-            return Container();
+        builder: (context, projectSnap) {
+          if (projectSnap.hasError) {
+            print("errou feio, errou rude");
+            return CircularProgressIndicator();
           }
-          return ListView.builder(
-            itemCount: projectSnap.data.length,
-            itemBuilder: (context, index){
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
-                  borderRadius: BorderRadius.circular(12.0), 
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(projectSnap.data[index].textRead),
-                ),
-              );
-            },
+          if (projectSnap.connectionState != ConnectionState.done) {
+            return CircularProgressIndicator();
+          }
+
+          if (projectSnap.connectionState == ConnectionState.none ||
+              projectSnap.data == null) {
+            print("no data");
+            return Container(
+              child: Icon(Icons.device_unknown),
+            );
+          }
+          return Container(
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: projectSnap.data.length,
+              itemBuilder: (context, index) {
+                print(projectSnap.data.toString());
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.8),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  child: ListTile(
+                    title: Text(projectSnap.data[index].textRead),
+                  ),
+                );
+              },
+            ),
           );
-        }
-      );
-
-    
-
-    // return ListView(
-    //   children: obj
-    //       .map((event) => Container(
-    //             decoration: BoxDecoration(
-    //               border: Border.all(width: 0.8),
-    //               borderRadius: BorderRadius.circular(12.0),
-    //             ),
-    //             
-    //             child: ListTile(
-    //               title: Text(event.textRead),
-    //               onTap: () => print('$event tapped!'),
-    //             ),
-    //           ))
-    //       .toList(),
-    // );
+        });
   }
-
 }

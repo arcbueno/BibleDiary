@@ -5,42 +5,46 @@ import 'database_helper.dart';
 
 // Data Access Object
 class DataDAO {
-
   Future<Database> get db => DatabaseHelper.getInstance().db;
 
   Future<int> saveAsync(Data data) async {
     final dbClient = await db;
-    var id = dbClient.insert('data', data.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
-    print('id: $id');
-    return id; 
+    print(data.toString());
+    var id = dbClient.insert('data', data.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    id.then((result) => print("id: " + result.toString()));
+    return id;
   }
 
-  Future<List<Data>> getAllAsync() async{
+  Future<List<Data>> getAllAsync() async {
     final dbClient = await db;
     final List<Map<String, dynamic>> list = await dbClient.query('data');
+    print(list.toString());
     return _mapToList(list);
   }
 
-  Future<List<Data>> getByDateAsync(DateTime date) async{
-    var formatter = DateFormat('yyyy-MM-dd');
-    String formatted = formatter.format(date);
+  Future<List<Data>> getByDateAsync(DateTime date) async {
+    String formatted = date.toIso8601String();
+    formatted = formatted.substring(0, 10);
+    print(formatted);
     final client = await db;
-    final list = await client.rawQuery('select * from data where date = $formatted');
+    final list = await client
+        .rawQuery("select * from data where date like '%$formatted%'");
+    print(list);
     return _mapToList(list);
   }
 
-  _mapToList(List<Map<String, dynamic>> list){
-    return List.generate(list.length, (i) { 
+  _mapToList(List<Map<String, dynamic>> list) {
+    return List.generate(list.length, (i) {
       return Data(
-        id: list[i]['id'],
-        date: list[i]['date'],
-        textRead: list[i]['textRead'],
-        resume: list[i]['resume'],
-        keyVerse: list[i]['keyVerse'],
-        whatLearned: list[i]['whatLearned'],
-        comment: list[i]['comment'],
-        tag: list[i]['tag']
-      );
+          id: list[i]['id'],
+          date: list[i]['date'],
+          textRead: list[i]['textRead'],
+          resume: list[i]['resume'],
+          keyVerse: list[i]['keyVerse'],
+          whatLearned: list[i]['whatLearned'],
+          comment: list[i]['comment'],
+          tag: list[i]['tag']);
     });
   }
 
