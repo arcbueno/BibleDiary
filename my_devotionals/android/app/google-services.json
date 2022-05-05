@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "793246934530",
+    "project_id": "my-devotionals",
+    "storage_bucket": "my-devotionals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793246934530:android:987c3e29bcce450119291b",
+        "android_client_info": {
+          "package_name": "com.arcbueno.my_devotionals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793246934530-mlrkcthbjemsmoamrrjcdfi52mn9lv4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCgUSalUHZSsPdgnMg6_oEYCgiYRDpV1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793246934530-mlrkcthbjemsmoamrrjcdfi52mn9lv4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
