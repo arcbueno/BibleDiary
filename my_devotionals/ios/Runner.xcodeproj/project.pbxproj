@@ -16,6 +16,7 @@
 		D0CC4AFB282496DB00A03902 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D0CC4AFA282496DB00A03902 /* FirebaseAuth */; };
 		D0CC4AFD282496DB00A03902 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0CC4AFC282496DB00A03902 /* FirebaseFirestore */; };
 		D0CC4AFF282496DB00A03902 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0CC4AFE282496DB00A03902 /* FirebaseFirestoreSwift */; };
+		D0CC4B0128249BA100A03902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0CC4B0028249BA100A03902 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0CC4B0028249BA100A03902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				D0CC4B0028249BA100A03902 /* GoogleService-Info.plist */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -175,6 +178,7 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				D0CC4B0128249BA100A03902 /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
